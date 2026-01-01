@@ -55,6 +55,3 @@ Recommends Send for Review / Skip decisions
 
 🔗 Live Demo: https://huggingface.co/spaces/Harman1010/Kepler-PSRS
 
-Recommends Send for Review / Skip decisions
-
-🔗 Live Demo: (Add Hugging Face Space link)
