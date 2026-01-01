@@ -12,7 +12,9 @@ Problem
 During the Kepler mission, detected signals are initially classified as:
 
 CONFIRMED
+
 CANDIDATE
+
 FALSE POSITIVE
 
 After this initial classification, scientists manually analyze signals to verify true exoplanets.
@@ -39,8 +41,11 @@ This converts the classifier into a decision-support system for prioritizing hum
 Results
 
 Threshold selected: 0.3
+
 Recall (CONFIRMED planets): ~89%
+
 Signals sent for review: ~30%
+
 Manual workload reduction: ~70%
 
 This demonstrates a strong balance between scientific safety and operational efficiency.
