@@ -1,156 +1,236 @@
 # 🪐 Kepler Planetary Signal Review System (PSRS)
 
-AI-assisted scientific review prioritization system for Kepler exoplanet signal analysis.
+AI-assisted scientific review prioritization and historical signal retrieval system inspired by NASA's Kepler exoplanet discovery mission.
 
 ---
 
 ## Overview
 
-In this project, we built a machine learning–based signal review system inspired by NASA’s Kepler exoplanet discovery mission.
+The Kepler Planetary Signal Review System (PSRS) is an end-to-end machine learning application designed to assist scientific review of planetary signals detected by the Kepler Space Telescope.
 
-The goal of the system is to reduce manual scientific review workload while maintaining high recall for potential exoplanets.
+The system combines machine learning classification, confidence-based prioritization, semantic similarity search, and database-backed review management to reduce manual workload while maintaining high recall for potential exoplanets.
 
-The project combines:
+Key capabilities include:
 
-- Multi-class machine learning classification
-- Confidence-based review prioritization
-- Semantic historical signal retrieval
-- FastAPI and Gradio deployment
-
----
-
-## Problem
-
-During the Kepler mission, detected signals are initially classified as:
-
-- CONFIRMED
-- CANDIDATE
-- FALSE POSITIVE
-
-Scientists must manually review thousands of detected signals to identify true exoplanets.
-
-This process is:
-- Time-consuming
-- Resource-intensive
-- Difficult to scale efficiently
+* Multi-class exoplanet signal classification
+* Confidence-based review prioritization
+* Semantic retrieval of historically similar signals
+* Human-in-the-loop review workflow
+* Database-backed prediction tracking
+* REST API deployment with FastAPI
+* Interactive deployment with Gradio
 
 ---
 
-## Solution
+## Problem Statement
 
-### 1️. Multi-Class Classification
+Kepler mission signals are typically classified into:
 
-We trained and compared three machine learning models:
+* CONFIRMED
+* CANDIDATE
+* FALSE POSITIVE
 
-- Logistic Regression
-- Random Forest
-- XGBoost
+Scientific validation requires manual review of thousands of detected signals, creating significant operational overhead.
 
-Based on overall performance and recall for confirmed planets, XGBoost was selected as the final deployment model.
+Challenges include:
 
----
-
-### 2️. Deployment-Ready ML Pipeline
-
-A Scikit-learn pipeline was created using:
-
-- SimpleImputer
-- XGBoost
-- GridSearchCV optimization
-
-This ensured consistent preprocessing and inference across:
-- Notebook experimentation
-- Gradio deployment
-- FastAPI deployment
+* Large review volume
+* Limited scientific resources
+* Need to preserve high recall for potentially confirmed exoplanets
 
 ---
 
-### 3️. Confidence-Based Review Prioritization
+## Solution Architecture
 
-Instead of relying only on predicted class labels, the system uses predicted probability for the `CONFIRMED` class to drive review decisions.
+### 1. Multi-Class Classification
 
-Signals are categorized into:
-- Critical
-- High
-- Medium
-- Low priority
+Three machine learning models were trained and evaluated:
 
-This converts the classifier into a scientific decision-support system.
+* Logistic Regression
+* Random Forest
+* XGBoost
+
+Based on classification performance and recall for confirmed planets, XGBoost was selected as the final production model.
 
 ---
 
-### 4️. Semantic Historical Signal Retrieval
+### 2. Deployment-Ready ML Pipeline
 
-The project also includes a semantic similarity retrieval system using:
+A Scikit-learn pipeline was built using:
 
-- Sentence Transformers
-- FAISS vector search
+* SimpleImputer
+* XGBoost
+* GridSearchCV
 
-For every input signal, the system retrieves historically similar planetary signals based on:
+This ensures consistent preprocessing and inference across:
 
-- Orbital Period
-- Transit Depth
-- Planet Radius
-- Stellar Temperature
+* Training notebooks
+* Gradio interface
+* FastAPI services
 
-This provides contextual historical comparison for scientific interpretation.
+---
+
+### 3. Confidence-Based Review Prioritization
+
+Instead of relying solely on class predictions, the system uses the predicted probability of the CONFIRMED class to prioritize scientific review.
+
+Priority levels:
+
+* Critical
+* High
+* Medium
+* Low
+
+Review recommendations:
+
+* Immediate Review
+* Scientist Validation
+* Review Queue
+* Auto-Filtered
+
+This transforms the classifier into a decision-support system rather than a simple prediction engine.
+
+---
+
+### 4. Semantic Historical Signal Retrieval
+
+To provide contextual scientific insight, the system retrieves historically similar planetary signals using:
+
+* Sentence Transformers
+* FAISS Vector Search
+
+Similarity retrieval is based on:
+
+* Orbital Period
+* Transit Depth
+* Planet Radius
+* Stellar Temperature
+
+For each incoming signal, the system returns:
+
+* Similar historical planets
+* Historical classifications
+* Signal summaries
+
+---
+
+### 5. Human-in-the-Loop Review Workflow
+
+Predictions are persisted in a SQLite database using SQLAlchemy.
+
+The workflow enables:
+
+* Storage of prediction history
+* Retrieval of previous predictions
+* Review status updates
+* Deletion of obsolete records
+
+This simulates a scientific review pipeline where machine learning assists but does not replace human validation.
 
 ---
 
 ## Results
 
-- Threshold selected: `0.3`
-- Recall for CONFIRMED planets: `~89%`
-- Signals forwarded for review: `~30%`
-- Estimated manual workload reduction: `~70%`
+| Metric                       | Value |
+| ---------------------------- | ----- |
+| Selected Threshold           | 0.30  |
+| Recall (CONFIRMED)           | ~89%  |
+| Signals Sent for Review      | ~30%  |
+| Estimated Workload Reduction | ~70%  |
 
-The system demonstrates a strong balance between:
-- Scientific safety
-- Operational efficiency
+The system achieves a strong balance between:
+
+* Scientific safety
+* Operational efficiency
+* Review scalability
 
 ---
 
 ## API Endpoints
 
-### `/predict`
+### POST `/predict`
+
+Predicts signal disposition and stores prediction records.
 
 Returns:
-- Predicted class
-- Confidence score
-- Review priority
-- Review recommendation
 
-### `/history`
+* Predicted Class
+* Confidence Score
+* Priority Level
+* Review Recommendation
+
+---
+
+### POST `/history`
+
+Retrieves semantically similar historical planetary signals.
 
 Returns:
-- Similar historical planetary signals
-- Historical dispositions
-- Planet summaries
+
+* Similar Planets
+* Historical Dispositions
+* Signal Summaries
+
+---
+
+### GET `/predictions`
+
+Retrieves stored prediction history.
+
+---
+
+### PATCH `/predictions/{prediction_id}`
+
+Updates review status for an existing prediction record.
+
+---
+
+### DELETE `/predictions/{prediction_id}`
+
+Deletes a prediction record from the database.
 
 ---
 
 ## Tech Stack
 
-- Python
-- Scikit-learn
-- XGBoost
-- FastAPI
-- Gradio
-- Sentence Transformers
-- FAISS
-- Pandas
-- NumPy
+### Machine Learning
+
+* Scikit-learn
+* XGBoost
+* Pandas
+* NumPy
+
+### Semantic Search
+
+* Sentence Transformers
+* FAISS
+
+### Backend
+
+* FastAPI
+* SQLAlchemy
+* SQLite
+
+### Deployment
+
+* Gradio
+* Hugging Face Spaces
 
 ---
 
 ## Deployment
 
-The final system was deployed using:
-- Gradio
-- Hugging Face Spaces
-- FastAPI backend architecture
+Live Demo:
 
-🔗 Live Demo:  
 https://huggingface.co/spaces/Harman1010/Kepler-PSRS
 
 ---
+
+## Future Improvements
+
+* PostgreSQL integration
+* Reviewer authentication and authorization
+* Scientist feedback collection
+* Active learning for model retraining
+* Dashboard-based review management
+* Cloud deployment with Docker
