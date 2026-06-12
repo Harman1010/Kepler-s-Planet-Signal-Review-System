@@ -1,0 +1,8 @@
+gradio
+numpy
+sentence_transformers
+faiss
+pandas
+scikit-learn == 1.6.1
+joblib == 1.5.3
+xgboost
