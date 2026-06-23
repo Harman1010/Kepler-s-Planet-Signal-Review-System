@@ -4,25 +4,27 @@ AI-assisted scientific review prioritization and historical signal retrieval sys
 
 ---
 
-## Overview
+# Overview
 
-The Kepler Planetary Signal Review System (PSRS) is an end-to-end machine learning application designed to assist scientific review of planetary signals detected by the Kepler Space Telescope.
+The Kepler Planetary Signal Review System (PSRS) is a full-stack AI application designed to assist scientific review of planetary signals detected by the Kepler Space Telescope.
 
-The system combines machine learning classification, confidence-based prioritization, semantic similarity search, and database-backed review management to reduce manual workload while maintaining high recall for potential exoplanets.
+The system combines machine learning classification, confidence-based prioritization, semantic similarity search, authentication, database-backed review management, and a web interface to reduce manual review workload while maintaining high recall for potentially confirmed exoplanets.
 
 Key capabilities include:
 
 * Multi-class exoplanet signal classification
 * Confidence-based review prioritization
 * Semantic retrieval of historically similar signals
-* Human-in-the-loop review workflow
+* JWT-based user authentication
 * Database-backed prediction tracking
+* Full CRUD review workflow
 * REST API deployment with FastAPI
-* Interactive deployment with Gradio
+* Interactive frontend built with HTML, CSS, and JavaScript
+* Gradio deployment for ML demonstration
 
 ---
 
-## Problem Statement
+# Problem Statement
 
 Kepler mission signals are typically classified into:
 
@@ -37,12 +39,13 @@ Challenges include:
 * Large review volume
 * Limited scientific resources
 * Need to preserve high recall for potentially confirmed exoplanets
+* Efficient prioritization of scientific review effort
 
 ---
 
-## Solution Architecture
+# Solution Architecture
 
-### 1. Multi-Class Classification
+## 1. Multi-Class Classification
 
 Three machine learning models were trained and evaluated:
 
@@ -54,7 +57,7 @@ Based on classification performance and recall for confirmed planets, XGBoost wa
 
 ---
 
-### 2. Deployment-Ready ML Pipeline
+## 2. Deployment-Ready ML Pipeline
 
 A Scikit-learn pipeline was built using:
 
@@ -70,7 +73,7 @@ This ensures consistent preprocessing and inference across:
 
 ---
 
-### 3. Confidence-Based Review Prioritization
+## 3. Confidence-Based Review Prioritization
 
 Instead of relying solely on class predictions, the system uses the predicted probability of the CONFIRMED class to prioritize scientific review.
 
@@ -92,7 +95,7 @@ This transforms the classifier into a decision-support system rather than a simp
 
 ---
 
-### 4. Semantic Historical Signal Retrieval
+## 4. Semantic Historical Signal Retrieval
 
 To provide contextual scientific insight, the system retrieves historically similar planetary signals using:
 
@@ -114,7 +117,24 @@ For each incoming signal, the system returns:
 
 ---
 
-### 5. Human-in-the-Loop Review Workflow
+## 5. Authentication & User Management
+
+The application implements JWT-based authentication using FastAPI security utilities.
+
+Features include:
+
+* User Registration
+* User Login
+* JWT Token Authentication
+* Protected API Endpoints
+* User-specific Prediction History
+* Logout Functionality
+
+Each prediction is associated with the authenticated user, ensuring prediction records remain isolated between users.
+
+---
+
+## 6. Human-in-the-Loop Review Workflow
 
 Predictions are persisted in a SQLite database using SQLAlchemy.
 
@@ -129,7 +149,21 @@ This simulates a scientific review pipeline where machine learning assists but d
 
 ---
 
-## Results
+# Full Stack Application Workflow
+
+1. User registers an account.
+2. User logs into the platform.
+3. JWT access token is generated and stored on the client.
+4. User submits planetary signal parameters.
+5. XGBoost model generates a classification prediction.
+6. Confidence-based prioritization assigns a review recommendation.
+7. Prediction is stored in a SQLite database.
+8. User can view, update, or delete previous predictions.
+9. Historical similarity search retrieves semantically related planetary signals using FAISS.
+
+---
+
+# Results
 
 | Metric                       | Value |
 | ---------------------------- | ----- |
@@ -146,7 +180,70 @@ The system achieves a strong balance between:
 
 ---
 
-## API Endpoints
+# Frontend
+
+A lightweight frontend was developed using:
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+Pages include:
+
+* Register
+* Login
+* Dashboard
+* New Prediction
+* My Predictions
+* Historical Signals
+
+The frontend communicates with FastAPI REST endpoints using the Fetch API and JWT-based authorization headers.
+
+---
+
+# Database Design
+
+Prediction records are stored using SQLAlchemy ORM.
+
+Stored attributes include:
+
+* Prediction ID
+* Prediction Class
+* Confidence Score
+* Priority Level
+* Review Status
+* User Association
+
+Supported operations:
+
+* Create Prediction
+* Read Predictions
+* Update Review Status
+* Delete Prediction
+
+This enables a complete CRUD workflow for scientific review management.
+
+---
+
+# API Endpoints
+
+## Authentication
+
+### POST `/register`
+
+Creates a new user account.
+
+### POST `/login`
+
+Authenticates a user and returns a JWT access token.
+
+### GET `/me`
+
+Returns information about the authenticated user.
+
+---
+
+## Predictions
 
 ### POST `/predict`
 
@@ -159,7 +256,21 @@ Returns:
 * Priority Level
 * Review Recommendation
 
+### GET `/predictions`
+
+Retrieves prediction history for the authenticated user.
+
+### PATCH `/predictions/{prediction_id}`
+
+Updates review status for an existing prediction record.
+
+### DELETE `/predictions/{prediction_id}`
+
+Deletes a prediction record.
+
 ---
+
+## Historical Retrieval
 
 ### POST `/history`
 
@@ -173,64 +284,108 @@ Returns:
 
 ---
 
-### GET `/predictions`
+# Tech Stack
 
-Retrieves stored prediction history.
-
----
-
-### PATCH `/predictions/{prediction_id}`
-
-Updates review status for an existing prediction record.
-
----
-
-### DELETE `/predictions/{prediction_id}`
-
-Deletes a prediction record from the database.
-
----
-
-## Tech Stack
-
-### Machine Learning
+## Machine Learning
 
 * Scikit-learn
 * XGBoost
 * Pandas
 * NumPy
 
-### Semantic Search
+## Semantic Search
 
 * Sentence Transformers
 * FAISS
 
-### Backend
+## Backend
 
 * FastAPI
 * SQLAlchemy
 * SQLite
+* JWT Authentication
+* Pydantic
 
-### Deployment
+## Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+## Deployment
 
 * Gradio
 * Hugging Face Spaces
 
 ---
 
-## Deployment
+# Project Structure
 
-Live Demo:
+```text
+Kepler-SRS/
 
-https://huggingface.co/spaces/Harman1010/Kepler-PSRS
+├── frontend/
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── new_predictions.html
+│   ├── my_predictions.html
+│   ├── historical_signals.html
+│   ├── styles.css
+│   └── js/
+
+├── routers/
+│   ├── auth_router.py
+│   ├── prediction_router.py
+│   └── history_router.py
+
+├── services/
+│   ├── predictor.py
+│   └── retrieval.py
+
+├── model_files/
+│   ├── finalModel.joblib
+│   ├── faiss_index.bin
+│   ├── label_encoder.joblib
+│   ├── planet_texts.joblib
+│   └── history_df.csv
+
+├── notebooks/
+│   └── Kepler_SRS.ipynb
+
+├── auth.py
+├── database.py
+├── models.py
+├── schemas.py
+├── main.py
+└── app.py
+```
 
 ---
 
-## Future Improvements
+# Deployment
+
+### Machine Learning Demo
+
+Hugging Face Spaces:
+
+https://huggingface.co/spaces/Harman1010/Kepler-PSRS
+
+### Full Stack Version
+
+FastAPI + HTML/CSS/JavaScript application with authentication, CRUD operations, database persistence, and historical signal retrieval.
+
+---
+
+# Future Improvements
 
 * PostgreSQL integration
-* Reviewer authentication and authorization
+* Role-based authorization
+* Docker deployment
 * Scientist feedback collection
 * Active learning for model retraining
-* Dashboard-based review management
-* Cloud deployment with Docker
+* Cloud-native deployment on Render
+* Analytics dashboard for review monitoring
+* Automated review recommendation tracking
+
+---
