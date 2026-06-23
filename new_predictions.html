@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title> "New Predictions" </title>
+</head>
+
+<body class="dashboard-page">
+
+    <div class="prediction-card">
+
+        <h1>Planet Signal Analysis</h1>
+
+        <p>
+            Enter planetary signal parameters for analysis
+        </p>
+
+
+        <input id="koi_period" type="number" placeholder="Orbital Period">
+
+        <input id="koi_time0bk" type="number" placeholder="Time0bk">
+
+        <input id="koi_duration" type="number" placeholder="Duration">
+
+        <input id="koi_depth" type="number" placeholder="Depth">
+
+        <input id="koi_impact" type="number" placeholder="Impact">
+
+        <input id="koi_model_snr" type="number" placeholder="Model SNR">
+
+        <input id="koi_prad" type="number" placeholder="Planet Radius">
+
+        <input id="koi_teq" type="number" placeholder="Temperature">
+
+        <input id="koi_insol" type="number" placeholder="Insolation">
+
+        <input id="koi_steff" type="number" placeholder="Stellar Temperature">
+
+        <button id="predict-btn" type="button">
+            Analyze Signal
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+    <script src="predict.js">
+    </script>
+
+</body>
+
+</html>

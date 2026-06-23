@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Signals</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="prediction-card">
+
+        <h1>Historical Signal Search</h1>
+
+        <p>
+            Find similar historical planetary signals
+        </p>
+
+        <input id="koi_period" type="number" placeholder="Orbital Period">
+
+        <input id="koi_depth" type="number" placeholder="Transit Depth">
+
+        <input id="koi_prad" type="number" placeholder="Planet Radius">
+
+        <input id="koi_steff" type="number" placeholder="Stellar Temperature">
+
+        <button id="history-btn" type="button">
+            Find Similar Signals
+        </button>
+
+        <div id="history-results">
+
+        </div>
+
+    </div>
+
+    <script src="js/historical_signals.js"></script>
+
+</body>
+
+</html>
