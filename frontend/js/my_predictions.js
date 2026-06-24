@@ -19,7 +19,7 @@ async function loadPredictions() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/predictions",
+                "https://kepler-s-planet-signal-review-system-production.up.railway.app/predictions",
                 {
                     headers: {
                         "Authorization":

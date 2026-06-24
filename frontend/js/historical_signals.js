@@ -49,7 +49,7 @@ async function loadHistory() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/history",
+                "https://kepler-s-planet-signal-review-system-production.up.railway.app/history",
                 {
                     method: "POST",
 

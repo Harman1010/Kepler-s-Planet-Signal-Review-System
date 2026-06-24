@@ -31,7 +31,7 @@ async function loginEvent(event) {
 
     const response =
         await fetch(
-            "http://127.0.0.1:8000/login",
+            "https://kepler-s-planet-signal-review-system-production.up.railway.app/login",
             {
                 method: "POST",
                 body: formData

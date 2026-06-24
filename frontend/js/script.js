@@ -11,7 +11,7 @@ async function connectBackend() {
 
     const response =
         await fetch(
-            "http://127.0.0.1:8000/"
+            "https://kepler-s-planet-signal-review-system-production.up.railway.app/"
         );
 
     const data =
