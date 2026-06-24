@@ -19,7 +19,7 @@ async function loadPredictions() {
 
         const response =
             await fetch(
-                "https://kepler-s-planet-signal-review-system-production.up.railway.app/predictions",
+                "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app//predictions",
                 {
                     headers: {
                         "Authorization":
@@ -150,7 +150,7 @@ async function updateStatus(id) {
         ).value;
 
     await fetch(
-        `http://127.0.0.1:8000/predictions/${id}`,
+        `https://kepler-s-planet-signal-review-system-production-e446.up.railway.app//predictions/${id}`,
         {
             method: "PATCH",
 
@@ -177,7 +177,7 @@ async function deletePrediction(id) {
         localStorage.getItem("token");
 
     await fetch(
-        `http://127.0.0.1:8000/predictions/${id}`,
+        `https://kepler-s-planet-signal-review-system-production-e446.up.railway.app//predictions/${id}`,
         {
             method: "DELETE",
 

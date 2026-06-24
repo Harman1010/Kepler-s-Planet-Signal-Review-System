@@ -49,7 +49,7 @@ async function loadHistory() {
 
         const response =
             await fetch(
-                "https://kepler-s-planet-signal-review-system-production.up.railway.app/history",
+                "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app//history",
                 {
                     method: "POST",
 
