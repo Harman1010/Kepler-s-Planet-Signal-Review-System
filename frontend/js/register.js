@@ -16,28 +16,56 @@ async function registerUser(event) {
     const password =
         document.getElementById("password").value;
 
-    const response =
-        await fetch(
-            "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app/register",
-            {
-                method: "POST",
+    try {
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+        const response =
+            await fetch(
+                "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app/register",
+                {
+                    method: "POST",
 
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            }
-        );
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-    const data =
-        await response.json();
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
 
-    document.getElementById("message")
-        .textContent = data.message;
+        const data =
+            await response.json();
 
-    console.log(data);
+        if (!response.ok) {
+
+            document.getElementById(
+                "message"
+            ).textContent =
+                data.detail ||
+                "Registration failed";
+
+            return;
+        }
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            data.message;
+
+        console.log(data);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "Unable to connect to server";
+    }
 }

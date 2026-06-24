@@ -31,6 +31,23 @@ async function loadPredictions() {
         const predictions =
             await response.json();
 
+        if (!response.ok) {
+
+            document.getElementById(
+                "prediction-table"
+            ).innerHTML =
+
+                `
+                <tr>
+                    <td colspan="7">
+                        ${predictions.detail}
+                    </td>
+                </tr>
+                `;
+
+            return;
+        }
+
         let rows =
 
             `

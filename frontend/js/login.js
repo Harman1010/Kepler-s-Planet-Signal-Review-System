@@ -29,26 +29,45 @@ async function loginEvent(event) {
         password
     );
 
-    const response =
-        await fetch(
-            "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app/login",
-            {
-                method: "POST",
-                body: formData
-            }
+    try {
+
+        const response =
+            await fetch(
+                "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app/login",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Invalid credentials"
+            );
+
+            return;
+        }
+
+        localStorage.setItem(
+            "token",
+            data.access_token
         );
 
-    const data =
-        await response.json();
+        window.location.href =
+            "dashboard.html";
+    }
 
-    console.log(data);
+    catch (error) {
 
-    localStorage.setItem(
-        "token",
-        data.access_token
-    );
+        console.error(error);
 
-    window.location.href =
-        "dashboard.html";
-
+        alert(
+            "Unable to connect to server"
+        );
+    }
 }
