@@ -76,7 +76,7 @@ async function predictSignal(event) {
 
         const response =
             await fetch(
-                "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app//predict",
+                "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app/predict",
                 {
                     method: "POST",
 

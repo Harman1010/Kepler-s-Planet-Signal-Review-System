@@ -18,7 +18,7 @@ async function registerUser(event) {
 
     const response =
         await fetch(
-            "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app//register",
+            "https://kepler-s-planet-signal-review-system-production-e446.up.railway.app/register",
             {
                 method: "POST",
 
